@@ -1,0 +1,268 @@
+{% extends "layout/base.html" %} {% block title %} Home {% endblock %} {% block
+styles %}
+
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/home.css') }}"
+/>
+
+{% endblock %} {% block content %}
+
+<section class="hero">
+  <div class="container">
+    <span class="hero-tagline"> PERSONAL FINANCE MADE SIMPLE </span>
+
+    <h1 class="hero-title">
+      Your Money.
+      <br />
+      <span>Your Control.</span>
+    </h1>
+
+    <p class="hero-text">
+      PocketFlow helps you track expenses, monitor income, create budgets, and
+      build better financial habits — all in one secure and beautifully designed
+      application.
+    </p>
+
+    <div class="hero-buttons">
+      <a href="/register" class="btn btn-primary"> Start Free </a>
+
+      <a href="#features" class="btn btn-outline"> Discover Features </a>
+    </div>
+    <div class="hero-note">
+      ✓ No Credit Card Required &nbsp; • &nbsp; ✓ Free to Get Started
+    </div>
+
+    <div class="scroll-indicator">↓</div>
+  </div>
+</section>
+
+<section id="features" class="features">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag"> FEATURES </span>
+
+      <h2>Everything You Need to Manage Your Money</h2>
+
+      <p>
+        PocketFlow gives you the essential tools to track, analyze, and improve
+        your financial habits without unnecessary complexity.
+      </p>
+    </div>
+
+    <div class="feature-grid">
+      <article class="feature-card">
+        <div class="feature-icon">
+          <span class="material-symbols-outlined"> payments </span>
+        </div>
+
+        <h3>Expense Tracking</h3>
+
+        <p>
+          Record daily expenses quickly and keep every transaction organized.
+        </p>
+      </article>
+
+      <article class="feature-card">
+        <div class="feature-icon">
+          <span class="material-symbols-outlined"> monitoring </span>
+        </div>
+
+        <h3>Smart Insights</h3>
+
+        <p>
+          Understand your spending patterns with clear reports and summaries.
+        </p>
+      </article>
+
+      <article class="feature-card">
+        <div class="feature-icon">
+          <span class="material-symbols-outlined"> savings </span>
+        </div>
+
+        <h3>Budget Planning</h3>
+
+        <p>Set monthly budgets and monitor your progress toward your goals.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="how-it-works">
+
+  <div class="container">
+
+      <div class="section-header">
+
+          <span class="section-tag">
+              HOW IT WORKS
+          </span>
+
+          <h2>
+              Get Started In Four Simple Steps
+          </h2>
+
+          <p>
+              PocketFlow makes personal finance management simple and intuitive.
+          </p>
+
+      </div>
+
+      <div class="steps-container">
+
+          <div class="step-card">
+
+              <div class="step-number">01</div>
+
+              <h3>Create Account</h3>
+
+              <p>
+                  Register your account and securely access PocketFlow.
+              </p>
+
+          </div>
+
+          <div class="step-arrow">
+              →
+          </div>
+
+          <div class="step-card">
+
+              <div class="step-number">02</div>
+
+              <h3>Add Income</h3>
+
+              <p>
+                  Record all your income sources and keep track of earnings.
+              </p>
+
+          </div>
+
+          <div class="step-arrow">
+              →
+          </div>
+
+          <div class="step-card">
+
+              <div class="step-number">03</div>
+
+              <h3>Track Expenses</h3>
+
+              <p>
+                  Log daily expenses and categorize them effectively.
+              </p>
+
+          </div>
+
+          <div class="step-arrow">
+              →
+          </div>
+
+          <div class="step-card">
+
+              <div class="step-number">04</div>
+
+              <h3>View Reports</h3>
+
+              <p>
+                  Analyze your finances and improve spending habits.
+              </p>
+
+          </div>
+
+      </div>
+
+  </div>
+
+</section>
+
+<section class="faq">
+
+  <div class="container">
+
+      <div class="section-header">
+
+          <span class="section-tag">
+              FAQ
+          </span>
+
+          <h2>
+              Frequently Asked Questions
+          </h2>
+
+      </div>
+
+      <div class="faq-container">
+
+          <details class="faq-item">
+
+              <summary>
+                  Is PocketFlow free?
+              </summary>
+
+              <p>
+                  Yes. PocketFlow is completely free for personal use.
+              </p>
+
+          </details>
+
+          <details class="faq-item">
+
+              <summary>
+                  Can I track both income and expenses?
+              </summary>
+
+              <p>
+                  Absolutely. You can manage both income and expenses in one place.
+              </p>
+
+          </details>
+
+          <details class="faq-item">
+
+              <summary>
+                  Is my data secure?
+              </summary>
+
+              <p>
+                  Your data is securely stored in MongoDB Atlas and protected through authentication.
+              </p>
+
+          </details>
+
+      </div>
+
+  </div>
+
+</section>
+
+<section class="cta">
+
+  <div class="container">
+
+      <h2>
+
+          Ready To Take Control
+          <br>
+          Of Your Finances?
+
+      </h2>
+
+      <p>
+
+          Join PocketFlow today and start building
+          better financial habits.
+
+      </p>
+
+      <a href="/register" class="btn btn-primary">
+
+          Create Free Account
+
+      </a>
+
+  </div>
+
+</section>
+
+{% endblock %}

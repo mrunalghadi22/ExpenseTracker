@@ -1,0 +1,37 @@
+   :root{
+
+    /* Colors */
+    --primary-color:#2563EB;
+    --primary-dark:#1D4ED8;
+
+    --success-color:#10B981;
+    --danger-color:#EF4444;
+    --warning-color:#F59E0B;
+
+    --background-color:#F8FAFC;
+    --surface-color:#FFFFFF;
+
+    --text-primary:#0F172A;
+    --text-secondary:#64748B;
+
+    --border-color:#E2E8F0;
+
+    /* Typography */
+    --font-family:"Poppins",sans-serif;
+
+    /* Border Radius */
+    --radius-sm:6px;
+    --radius-md:12px;
+    --radius-lg:18px;
+
+    /* Shadows */
+    --shadow-sm:0 2px 8px rgba(0,0,0,.05);
+    --shadow-md:0 10px 30px rgba(0,0,0,.08);
+
+    /* Transition */
+    --transition:.3s ease;
+
+    /* Layout */
+    --container-width:1200px;
+
+}

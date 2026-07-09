@@ -1,0 +1,50 @@
+footer {
+  background: #0f172a;
+
+  color: white;
+
+  padding: 70px 0 20px;
+}
+
+.footer-grid {
+  display: grid;
+
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+
+  gap: 40px;
+}
+
+footer h4 {
+  margin-bottom: 20px;
+}
+
+footer ul {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+footer p,
+footer li {
+  color: #cbd5e1;
+}
+
+.copyright {
+  margin-top: 50px;
+
+  text-align: center;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+  padding-top: 20px;
+}
+
+@media (max-width: 900px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+
+    text-align: center;
+  }
+}

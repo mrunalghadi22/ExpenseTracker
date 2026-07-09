@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>{% block title %} ExpenseTracker {% endblock %}</title>
+
+    <!-- Global CSS -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/variables.css') }}"
+    />
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/global.css') }}"
+    />
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/navbar.css') }}"
+    />
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/footer.css') }}"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+    />
+
+    <!-- Page CSS -->
+    {% block styles %} {% endblock %}
+  </head>
+
+  <body>
+    {% include 'components/navbar.html' %}
+
+    <main>{% block content %} {% endblock %}</main>
+
+    {% include 'components/footer.html' %} {% block scripts %} {% endblock %}
+    <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+  </body>
+</html>
