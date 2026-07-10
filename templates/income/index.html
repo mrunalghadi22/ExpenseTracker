@@ -1,0 +1,191 @@
+
+{% extends "layout/dashboard_base.html" %}
+
+{% block title %}
+Income
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+
+        <h1>Income</h1>
+
+        <p>
+            Track all your income sources in one place.
+        </p>
+
+    </div>
+
+    <a
+        href="{{ url_for('income.create') }}"
+        class="btn btn-primary">
+
+        <span class="material-symbols-outlined">
+            add
+        </span>
+
+        Add Income
+
+    </a>
+
+</div>
+
+{% if incomes %}
+
+<div class="income-grid">
+
+    {% for income in incomes %}
+
+    <div class="income-card">
+
+        <div class="income-card-header">
+
+            <div>
+
+                <h3>{{ income.title }}</h3>
+
+                <small>
+
+                    {{ income.income_date.strftime("%d %b %Y") }}
+
+                </small>
+
+            </div>
+
+            <h2>
+
+                ₹{{ "%.2f"|format(income.amount) }}
+
+            </h2>
+
+        </div>
+
+        {% if income.description %}
+
+        <p class="income-description">
+
+            {{ income.description }}
+
+        </p>
+
+        {% endif %}
+
+        <div class="card-actions">
+
+            <a
+                href="{{ url_for('income.edit', income_id=income._id) }}"
+                class="edit-btn">
+
+                <span class="material-symbols-outlined">
+                    edit
+                </span>
+
+                Edit
+
+            </a>
+
+            <button
+                type="button"
+                class="delete-btn"
+                data-url="{{ url_for('income.delete', income_id=income._id) }}"
+                data-name="{{ income.title }}">
+
+                <span class="material-symbols-outlined">
+                    delete
+                </span>
+
+                Delete
+
+            </button>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% else %}
+
+<div class="empty-state">
+
+    <span class="material-symbols-outlined">
+
+        payments
+
+    </span>
+
+    <h2>
+
+        No Income Added Yet
+
+    </h2>
+
+    <p>
+
+        Start by adding your first income.
+
+    </p>
+
+    <a
+        href="{{ url_for('income.create') }}"
+        class="btn btn-primary">
+
+        Add Income
+
+    </a>
+
+</div>
+
+{% endif %}
+
+{% include "components/confirm_modal.html" %}
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+
+const modal = document.getElementById("confirmModal");
+const deleteForm = document.getElementById("deleteForm");
+const categoryName = document.getElementById("categoryName");
+
+document.querySelectorAll(".delete-btn").forEach(button=>{
+
+    button.addEventListener("click",()=>{
+
+        categoryName.textContent = button.dataset.name;
+
+        deleteForm.action = button.dataset.url;
+
+        modal.classList.add("show");
+
+    });
+
+});
+
+document.getElementById("cancelDelete").addEventListener("click",()=>{
+
+    modal.classList.remove("show");
+
+});
+
+modal.addEventListener("click",(e)=>{
+
+    if(e.target===modal){
+
+        modal.classList.remove("show");
+
+    }
+
+});
+
+</script>
+
+{% endblock %}
+
