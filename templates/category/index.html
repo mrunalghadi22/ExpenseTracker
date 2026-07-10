@@ -1,0 +1,81 @@
+{% extends "layout/dashboard_base.html" %} {% block title %}Categories{%
+endblock %} {% block content %} {% include "components/confirm_modal.html" %}
+
+<div class="page-header">
+  <div>
+    <h1>Categories</h1>
+
+    <p>Organize your expenses with categories.</p>
+  </div>
+
+  <a href="{{ url_for('category.create') }}" class="btn btn-primary">
+    + New Category
+  </a>
+</div>
+
+<!-- {{ categories }} -->
+
+{% if categories %}
+
+<div class="category-grid">
+  {% for category in categories %}
+
+  <div class="category-card">
+    <div class="status-badge">Active</div>
+
+    <div
+      class="category-icon"
+      style="background: {{ category.color }}20; color: {{ category.color }};"
+    >
+      <span class="material-symbols-outlined"> {{ category.icon }} </span>
+    </div>
+
+    <h3>{{ category.name }}</h3>
+
+    <p>Expense Category</p>
+
+    <div class="created-date">
+      Created {{ category.created_at.strftime("%d %b %Y") }}
+    </div>
+
+    <div class="card-footer">
+      <a
+        href="{{ url_for('category.edit', category_id=category._id) }}"
+        class="edit-btn"
+      >
+        <span class="material-symbols-outlined"> edit </span>
+
+        Edit
+      </a>
+
+      <button
+        type="button"
+        class="delete-btn"
+        data-url="{{ url_for('category.delete', category_id=category._id) }}"
+        data-name="{{ category.name }}"
+      >
+        <span class="material-symbols-outlined"> delete </span>
+
+        Delete
+      </button>
+    </div>
+  </div>
+
+  {% endfor %}
+</div>
+
+{% else %}
+
+<div class="empty-state">
+  <span class="material-symbols-outlined"> category </span>
+
+  <h2>No Categories Yet</h2>
+
+  <p>Create your first category to organize your expenses.</p>
+
+  <a href="{{ url_for('category.create') }}" class="btn btn-primary">
+    Create Category
+  </a>
+</div>
+
+{% endif %} {% endblock %} 

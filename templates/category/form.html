@@ -1,0 +1,142 @@
+{% extends "layout/dashboard_base.html" %} {% block title %} {% if category
+%}Edit Category{% else %}Create Category{% endif %} {% endblock %} {% block
+content %}
+
+<div class="category-form-container">
+  <div class="form-header">
+    <h1>
+      {% if category %} Edit Category {% else %} Create Category {% endif %}
+    </h1>
+
+    <p>Organize your expenses with custom categories.</p>
+  </div>
+
+  <div class="category-layout">
+    <form method="POST" class="category-form">
+      <!-- Category Name -->
+
+      <div class="form-group">
+        <label>Category Name</label>
+
+        <input
+          type="text"
+          name="name"
+          id="categoryName"
+          placeholder="e.g. Food"
+          value="{{ category.name if category else '' }}"
+          required
+        />
+      </div>
+
+      <!-- Icon Picker -->
+
+      <div class="form-group">
+        <label>Select Icon</label>
+
+        <div class="icon-grid">
+          {% set icons = [ "restaurant", "shopping_bag", "payments",
+          "receipt_long", "flight", "school", "fitness_center",
+          "sports_esports", "home", "directions_car", "medical_services", "pets"
+          ] %} {% for icon in icons %}
+
+          <label class="icon-option">
+            <input type="radio" name="icon" value="{{ icon }}" {% if category
+            and category.icon == icon %}checked{% endif %} {% if not category
+            and loop.first %}checked{% endif %}>
+
+            <span class="material-symbols-outlined"> {{ icon }} </span>
+          </label>
+
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Color Picker -->
+
+      <div class="form-group">
+        <label>Select Color</label>
+
+        <div class="color-grid">
+          {% set colors = [ "#2563EB", "#10B981", "#F59E0B", "#EF4444",
+          "#8B5CF6", "#64748B" ] %} {% for color in colors %}
+
+          <label class="color-option">
+            <input type="radio" name="color" value="{{ color }}" {% if category
+            and category.color == color %}checked{% endif %} {% if not category
+            and loop.first %}checked{% endif %}>
+
+            <span class="color-circle" style="background: {{ color }};"> </span>
+          </label>
+
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Preview -->
+
+      <div class="form-actions">
+        <a href="{{ url_for('category.index') }}" class="btn btn-outline">
+          Cancel
+        </a>
+
+        <button class="btn btn-primary">
+          {% if category %} Update Category {% else %} Save Category {% endif %}
+        </button>
+      </div>
+    </form>
+
+    <div class="preview-wrapper">
+      <div class="preview-card">
+        <div class="preview-icon">
+          <span class="material-symbols-outlined" id="previewIcon">
+            restaurant
+          </span>
+        </div>
+
+        <h3 id="previewTitle">Category Name</h3>
+
+        <p>Expense Category</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %} {% block scripts %}
+
+<script>
+  // const categoryName = document.getElementById("categoryName");
+  const previewTitle = document.getElementById("previewTitle");
+  const previewIcon = document.getElementById("previewIcon");
+  const previewCircle = document.querySelector(".preview-icon");
+
+  function updatePreview() {
+    previewTitle.textContent = categoryName.value.trim() || "Category Name";
+
+    const selectedIcon = document.querySelector("input[name='icon']:checked");
+
+    if (selectedIcon) {
+      previewIcon.textContent = selectedIcon.value;
+    }
+
+    const selectedColor = document.querySelector("input[name='color']:checked");
+
+    if (selectedColor) {
+      previewCircle.style.background = selectedColor.value;
+    }
+  }
+
+  categoryName.addEventListener("input", updatePreview);
+
+  document.querySelectorAll("input[name='icon']").forEach((input) => {
+    input.addEventListener("change", updatePreview);
+  });
+
+  document.querySelectorAll("input[name='color']").forEach((input) => {
+    input.addEventListener("change", updatePreview);
+  });
+
+  updatePreview();
+</script>
+
+{% endblock %}
+

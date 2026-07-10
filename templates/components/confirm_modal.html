@@ -1,0 +1,51 @@
+<div class="modal-overlay" id="confirmModal">
+
+    <div class="confirm-modal">
+
+        <div class="modal-icon">
+
+            <span class="material-symbols-outlined">
+                delete
+            </span>
+
+        </div>
+
+        <h2>Delete Category</h2>
+
+        <p>
+            Are you sure you want to delete
+            <strong id="categoryName"></strong>?
+        </p>
+
+        <small>
+            This action cannot be undone.
+        </small>
+
+        <div class="modal-actions">
+
+            <button
+                type="button"
+                class="btn btn-outline"
+                id="cancelDelete">
+
+                Cancel
+
+            </button>
+
+            <form id="deleteForm" method="POST">
+
+                <button
+                    type="submit"
+                    class="btn btn-danger">
+
+                    Delete
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

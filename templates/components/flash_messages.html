@@ -1,0 +1,43 @@
+{% with messages = get_flashed_messages(with_categories=true) %}
+
+    {% if messages %}
+
+        <div class="flash-container">
+
+            {% for category, message in messages %}
+
+                <div class="flash flash-{{ category }}">
+
+                    <span class="material-symbols-outlined">
+
+                        {% if category == "success" %}
+                            check_circle
+                        {% elif category == "error" %}
+                            error
+                        {% elif category == "warning" %}
+                            warning
+                        {% else %}
+                            info
+                        {% endif %}
+
+                    </span>
+
+                    <p>{{ message }}</p>
+
+                    <button class="flash-close">
+
+                        <span class="material-symbols-outlined">
+                            close
+                        </span>
+
+                    </button>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+{% endwith %}

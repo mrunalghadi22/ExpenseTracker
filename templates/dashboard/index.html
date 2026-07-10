@@ -1,9 +1,25 @@
-{% extends "layout/base.html" %}
+{% extends "layout/dashboard_base.html" %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}
+Dashboard
+{% endblock %}
 
 {% block content %}
 
-<h1>Dashboard</h1>
+<h1>
+
+Welcome,
+
+{{ current_user.full_name }}
+
+🎉
+
+</h1>
+
+<p>
+
+Your dashboard will be here.
+
+</p>
 
 {% endblock %}

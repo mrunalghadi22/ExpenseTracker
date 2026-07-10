@@ -4,29 +4,78 @@
       <div class="logo-icon">PF</div>
 
       <div class="logo-content">
-        <span class="logo-title">PocketFlow</span>
-        <span class="logo-subtitle">Your Money. Organized.</span>
+        <span class="logo-title"> PocketFlow </span>
+
+        <span class="logo-subtitle"> Your Money. Organized. </span>
       </div>
     </a>
 
+    {% if current_user %}
+
+    <!-- Logged In Navbar -->
+
     <ul class="nav-links">
       <li>
-        <a href="/">Home</a>
+        <a href="{{ url_for('dashboard.dashboard_page') }}"> Dashboard </a>
       </li>
 
       <li>
-        <a href="#features">Features</a>
+        <a href="#"> Expenses </a>
       </li>
 
       <li>
-        <a href="#about">About</a>
+        <a href="#"> Income </a>
+      </li>
+
+      <li>
+        <a href="#"> Reports </a>
+      </li>
+    </ul>
+
+    <div class="user-dropdown">
+      <button class="user-btn">
+        <span class="user-avatar">
+          {{ current_user.full_name[0] | upper }}
+        </span>
+
+        <span class="user-name"> {{ current_user.full_name }} </span>
+
+        ▼
+      </button>
+
+      <div class="dropdown-menu">
+        <a href="#"> 👤 Profile </a>
+
+        <a href="{{ url_for('auth.logout') }}"> 🚪 Logout </a>
+      </div>
+    </div>
+
+    {% else %}
+
+    <!-- Guest Navbar -->
+
+    <ul class="nav-links">
+      <li>
+        <a href="/"> Home </a>
+      </li>
+
+      <li>
+        <a href="#features"> Features </a>
+      </li>
+
+      <li>
+        <a href="#about"> About </a>
       </li>
     </ul>
 
     <div class="nav-buttons">
-      <a href="/login" class="btn btn-outline"> Login </a>
+      <a href="{{ url_for('auth.login') }}" class="btn btn-outline"> Login </a>
 
-      <a href="/register" class="btn btn-primary"> Register </a>
+      <a href="{{ url_for('auth.register') }}" class="btn btn-primary">
+        Register
+      </a>
     </div>
+
+    {% endif %}
   </div>
 </nav>

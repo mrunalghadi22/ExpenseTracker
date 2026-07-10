@@ -1,0 +1,49 @@
+<header class="topbar">
+
+    <div class="topbar-left">
+
+        <h2>
+
+            {% block page_title %}
+
+            Dashboard
+
+            {% endblock %}
+
+        </h2>
+
+    </div>
+
+    <div class="topbar-right">
+
+        <div class="user-info">
+
+            <div class="avatar">
+
+                {{ current_user.full_name[0] | upper }}
+
+            </div>
+
+            <div>
+
+                <strong>
+
+                    {{ current_user.full_name }}
+
+                </strong>
+
+                <br>
+
+                <small>
+
+                    {{ current_user.email }}
+
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>

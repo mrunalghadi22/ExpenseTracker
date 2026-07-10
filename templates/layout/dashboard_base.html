@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <title>{% block title %}{% endblock %}</title>
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/dashboard.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/variables.css') }}"
+    />
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/global.css') }}"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+    />
+
+    <!-- Page CSS -->
+    {% block styles %} {% endblock %}
+  </head>
+
+  <body>
+    <div class="dashboard-layout">
+      {% include "components/sidebar.html" %}
+
+      <div class="dashboard-content">
+        {% include "components/topbar.html" %}
+
+        <main>
+          {% include "components/flash_messages.html" %} {% block content %}{%
+          endblock %}
+        </main>
+      </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/global.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    {% block scripts %}{% endblock %}
+
+  </body>
+</html>
