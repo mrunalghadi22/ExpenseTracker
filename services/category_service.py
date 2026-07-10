@@ -1,8 +1,9 @@
+
 from datetime import datetime
+from bson import ObjectId
 
 from models.category_model import CategoryModel
 from utils.category_validator import validate_category_name
-from bson import ObjectId
 
 
 class CategoryService:
@@ -10,15 +11,13 @@ class CategoryService:
     @staticmethod
     def create_category(user_id, data):
 
-        name = data.get("name", "").strip()
+        name = data.get("name", "").strip().title()
 
-        # Validate category name
         valid, message = validate_category_name(name)
 
         if not valid:
             return False, message
 
-        # Check duplicate category
         category = CategoryModel.get_category_by_name(
             user_id,
             name
@@ -39,27 +38,46 @@ class CategoryService:
         CategoryModel.create_category(category_data)
 
         return True, "Category created successfully."
-    
+
     @staticmethod
-    def get_categories(user_id):
-        return CategoryModel.get_categories_by_user(user_id)
-    
+    def get_all_categories(user_id):
+
+        return CategoryModel.get_categories_by_user(
+            user_id
+        )
+
+    @staticmethod
+    def get_category(user_id, category_id):
+
+        return CategoryModel.get_category_by_id(
+            user_id,
+            category_id
+        )
+
     @staticmethod
     def update_category(user_id, category_id, data):
+
+        existing_category = CategoryService.get_category(
+            user_id,
+            category_id
+        )
+
+        if not existing_category:
+            return False, "Category not found."
 
         name = data.get("name", "").strip().title()
 
         valid, message = validate_category_name(name)
-    
+
         if not valid:
             return False, message
 
-        category = CategoryModel.get_category_by_name(
+        duplicate = CategoryModel.get_category_by_name(
             user_id,
             name
         )
-    
-        if category and str(category["_id"]) != category_id:
+
+        if duplicate and str(duplicate["_id"]) != category_id:
             return False, "Category already exists."
 
         update_data = {
@@ -70,15 +88,28 @@ class CategoryService:
         }
 
         CategoryModel.update_category(
+            user_id,
             category_id,
             update_data
         )
 
         return True, "Category updated successfully."
-    
-    @staticmethod
-    def delete_category(category_id):
 
-        CategoryModel.delete_category(category_id)
+    @staticmethod
+    def delete_category(user_id, category_id):
+
+        category = CategoryService.get_category(
+            user_id,
+            category_id
+        )
+
+        if not category:
+            return False, "Category not found."
+
+        CategoryModel.delete_category(
+            user_id,
+            category_id
+        )
 
         return True, "Category deleted successfully."
+

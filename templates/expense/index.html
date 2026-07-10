@@ -1,0 +1,105 @@
+ {% extends "layout/dashboard_base.html" %} {% block title %} Expenses {%
+endblock %} {% block content %}
+
+<div class="page-header">
+  <div>
+    <h1>Expenses</h1>
+
+    <p>Track and manage all your expenses.</p>
+  </div>
+
+  <a href="{{ url_for('expense.create') }}" class="btn btn-primary">
+    <span class="material-symbols-outlined"> add </span>
+
+    Add Expense
+  </a>
+</div>
+
+{% if expenses %}
+
+<div class="expense-grid">
+  {% for expense in expenses %}
+
+  <div class="expense-card">
+    <div class="expense-header">
+      <div>
+        <h3 class="expense-title">{{ expense.title }}</h3>
+
+        <div class="expense-date">
+          <span class="material-symbols-outlined">calendar_month</span>
+        </div>
+      </div>
+
+      <h2 class="expense-amount">₹{{ "%.2f"|format(expense.amount) }}</h2>
+    </div>
+
+    <div class="category-badge">
+      <span
+        class="material-symbols-outlined"
+        style="color: {{ expense.category.color }};"
+      >
+        {{ expense.category.icon }}
+      </span>
+
+      <span class="category-name"> {{ expense.category.name }} </span>
+    </div>
+
+    {% if expense.description %}
+
+    <p class="expense-description">{{ expense.description }}</p>
+
+    {% endif %}
+
+    <div class="expense-footer">
+      <div class="expense-actions">
+        <a
+          href="{{ url_for('expense.edit', expense_id=expense._id) }}"
+          class="edit-btn"
+        >
+          <span class="material-symbols-outlined"> edit </span>
+
+          Edit
+        </a>
+
+        <button
+                type="button"
+                class="delete-btn"
+                data-url="{{ url_for('expense.delete', expense_id=expense._id) }}"
+                data-name="{{ expense.title }}">
+
+                <span class="material-symbols-outlined">
+                    delete
+                </span>
+
+                Delete
+
+            </button>
+      </div>
+    </div>
+  </div>
+
+  {% endfor %}
+</div>
+
+{% else %}
+
+<div class="empty-state">
+  <span
+    class="material-symbols-outlined"
+    style="font-size: 70px; color: var(--text-secondary)"
+  >
+    receipt_long
+  </span>
+
+  <h2>No Expenses Found</h2>
+
+  <p>Start tracking your spending by adding your first expense.</p>
+
+  <a href="{{ url_for('expense.create') }}" class="btn btn-primary">
+    Add Expense
+  </a>
+</div>
+
+{% endif %} {% include "components/confirm_modal.html" %}{% endblock %} 
+
+

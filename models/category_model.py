@@ -12,35 +12,27 @@ class CategoryModel:
     def get_categories_by_user(user_id):
         return list(
             category_collection.find(
-                {"user_id": ObjectId(user_id)}
+                {
+                    "user_id": ObjectId(user_id)
+                }
             ).sort("name", 1)
         )
 
     @staticmethod
-    def get_category_by_id(category_id):
+    def get_category_by_id(user_id, category_id):
         return category_collection.find_one(
             {
-                "_id": ObjectId(category_id)
+                "_id": ObjectId(category_id),
+                "user_id": ObjectId(user_id)
             }
         )
 
     @staticmethod
-    def get_category_by_name(user_id, name):
-        return category_collection.find_one(
-            {
-                "user_id": ObjectId(user_id),
-                "name": {
-                    "$regex": f"^{name}$",
-                    "$options": "i"
-                }
-            }
-        )
-
-    @staticmethod
-    def update_category(category_id, data):
+    def update_category(user_id, category_id, data):
         return category_collection.update_one(
             {
-                "_id": ObjectId(category_id)
+                "_id": ObjectId(category_id),
+                "user_id": ObjectId(user_id)
             },
             {
                 "$set": data
@@ -48,9 +40,21 @@ class CategoryModel:
         )
 
     @staticmethod
-    def delete_category(category_id):
+    def delete_category(user_id, category_id):
         return category_collection.delete_one(
             {
-                "_id": ObjectId(category_id)
+                "_id": ObjectId(category_id),
+                "user_id": ObjectId(user_id)
+            }
+        )
+    
+  
+    @staticmethod
+    def get_category_by_name(user_id, name):
+
+        return category_collection.find_one(
+            {
+                "user_id": ObjectId(user_id),
+                "name": name
             }
         )

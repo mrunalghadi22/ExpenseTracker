@@ -1073,6 +1073,465 @@ main {
 }
 
 /* ==========================================
+   Custom Category Select
+========================================== */
+
+.custom-select{
+
+  position:relative;
+
+}
+
+.select-box{
+
+  border:1px solid var(--border-color);
+
+  border-radius:var(--radius-md);
+
+  background:var(--surface-color);
+
+  padding:14px 16px;
+
+  display:flex;
+
+  align-items:center;
+
+  gap:12px;
+
+  cursor:pointer;
+
+  transition:var(--transition);
+
+}
+
+.select-box:hover{
+
+  border-color:var(--primary-color);
+
+}
+
+.select-box .arrow{
+
+  margin-left:auto;
+
+  transition:.25s;
+
+}
+
+.custom-select.active .arrow{
+
+  transform:rotate(180deg);
+
+}
+
+.select-dropdown{
+
+  position:absolute;
+
+  top:105%;
+
+  left:0;
+
+  width:100%;
+
+  background:white;
+
+  border:1px solid var(--border-color);
+
+  border-radius:var(--radius-md);
+
+  box-shadow:var(--shadow-md);
+
+  max-height:260px;
+
+  overflow-y:auto;
+
+  display:none;
+
+  z-index:999;
+
+}
+
+.custom-select.active .select-dropdown{
+
+  display:block;
+
+}
+
+.select-option{
+
+  padding:14px 16px;
+
+  display:flex;
+
+  align-items:center;
+
+  gap:12px;
+
+  cursor:pointer;
+
+  transition:.2s;
+
+}
+
+.select-option:hover{
+
+  background:#EFF6FF;
+
+}
+
+.select-option .material-symbols-outlined{
+
+  font-size:24px;
+
+}
+
+/* ==========================================
+ Expense Preview
+========================================== */
+
+#previewCategory {
+  margin-top: .5rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* ==========================================
+   Preview Animation
+========================================== */
+
+.preview-card{
+    transition: transform .25s ease;
+}
+
+.preview-card.animate{
+
+    animation: previewPop .25s ease;
+
+}
+
+@keyframes previewPop{
+
+    0%{
+        transform:scale(.95);
+        opacity:.8;
+    }
+
+    60%{
+        transform:scale(1.03);
+    }
+
+    100%{
+        transform:scale(1);
+        opacity:1;
+    }
+
+}
+
+/* ==========================================
+   Expense Page
+========================================== */
+
+.page-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:2rem;
+  gap:1rem;
+}
+
+.page-header h1{
+  color:var(--text-primary);
+  margin-bottom:.35rem;
+}
+
+.page-header p{
+  color:var(--text-secondary);
+}
+
+/* ==========================================
+ Expense Card
+========================================== */
+
+.expense-grid{
+  display:grid;
+  gap:1.5rem;
+}
+
+.expense-card{
+
+  background:var(--surface-color);
+
+  border-radius:var(--radius-lg);
+
+  padding:1.5rem;
+
+  box-shadow:var(--shadow-sm);
+
+  transition:var(--transition);
+
+  border-left:5px solid var(--danger-color);
+
+}
+
+.expense-card:hover{
+
+  transform:translateY(-4px);
+
+  box-shadow:var(--shadow-md);
+
+}
+
+.expense-header{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:flex-start;
+
+  margin-bottom:1rem;
+
+}
+
+.expense-title{
+
+  font-size:1.15rem;
+
+  font-weight:600;
+
+  color:var(--text-primary);
+
+}
+
+.expense-date{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:.35rem;
+
+  color:var(--text-secondary);
+
+  font-size:.85rem;
+
+  margin-top:.4rem;
+
+}
+
+.expense-date .material-symbols-outlined{
+
+  font-size:18px;
+
+}
+
+.expense-amount{
+
+  font-size:1.7rem;
+
+  font-weight:700;
+
+  color:var(--danger-color);
+
+}
+
+/* ==========================================
+ Category Badge
+========================================== */
+
+.category-badge{
+
+  display:inline-flex;
+
+  align-items:center;
+
+  gap:.5rem;
+
+  padding:.55rem .9rem;
+
+  border-radius:999px;
+
+  background:#f8fafc;
+
+  border:1px solid var(--border-color);
+
+  margin-bottom:1rem;
+
+}
+
+.category-badge .material-symbols-outlined{
+
+  font-size:22px;
+
+}
+
+.category-name{
+
+  font-weight:500;
+
+  color:var(--text-primary);
+
+}
+
+/* ==========================================
+ Description
+========================================== */
+
+.expense-description{
+
+  color:var(--text-secondary);
+
+  line-height:1.7;
+
+  margin-bottom:1.5rem;
+
+}
+
+/* ==========================================
+ Footer
+========================================== */
+
+.expense-footer{
+
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  border-top:1px solid var(--border-color);
+
+  padding-top:1rem;
+
+}
+
+.expense-actions{
+
+  display:flex;
+
+  gap:.75rem;
+
+}
+
+/* ==========================================
+ Empty State
+========================================== */
+
+.empty-state{
+
+  background:var(--surface-color);
+
+  border-radius:var(--radius-lg);
+
+  box-shadow:var(--shadow-sm);
+
+  padding:4rem 2rem;
+
+  text-align:center;
+
+}
+
+.empty-state h2{
+
+  margin:1rem 0 .5rem;
+
+  color:var(--text-primary);
+
+}
+
+.empty-state p{
+
+  color:var(--text-secondary);
+
+  margin-bottom:2rem;
+
+}
+
+/* ==========================================
+ Responsive
+========================================== */
+
+@media(max-width:768px){
+
+  .page-header{
+
+      flex-direction:column;
+
+      align-items:flex-start;
+
+  }
+
+  .page-header .btn{
+
+      width:100%;
+
+      justify-content:center;
+
+  }
+
+  .expense-header{
+
+      flex-direction:column;
+
+      gap:1rem;
+
+  }
+
+  .expense-footer{
+
+      flex-direction:column;
+
+      align-items:flex-start;
+
+      gap:1rem;
+
+  }
+
+  .expense-actions{
+
+      width:100%;
+
+      flex-direction:column;
+
+  }
+
+  .expense-actions a,
+  .expense-actions button{
+
+      width:100%;
+
+      justify-content:center;
+
+  }
+
+}
+
+/* ==========================================
+ Responsive
+========================================== */
+
+@media (max-width:768px){
+
+  .category-selector{
+
+      grid-template-columns:repeat(2,1fr);
+
+  }
+
+}
+
+@media (max-width:480px){
+
+  .category-selector{
+
+      grid-template-columns:1fr;
+
+  }
+
+} 
+
+/* ==========================================
    Responsive
 ========================================== */
 
