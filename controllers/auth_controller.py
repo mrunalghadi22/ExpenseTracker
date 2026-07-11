@@ -11,6 +11,8 @@ from services.auth_service import AuthService
 
 
 def register_page():
+    if session.get("user_id"):
+            return redirect(url_for("dashboard.dashboard_page"))
     return render_template("auth/register.html")
 
 
@@ -27,6 +29,8 @@ def register_user():
 
 
 def login_page():
+    if session.get("user_id"):
+            return redirect(url_for("dashboard.dashboard_page"))
     return render_template("auth/login.html")
 
 

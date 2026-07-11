@@ -1,0 +1,463 @@
+{% extends "layout/dashboard_base.html" %}
+
+{% block title %}My Profile{% endblock %}
+
+
+
+<!-- Page CSS -->
+{% block styles %}
+<link
+rel="stylesheet"
+href="{{ url_for('static', filename='css/profile.css') }}"
+/>
+{% endblock %}
+
+{% block content %}
+
+<section class="profile-page">
+
+    <!-- Header -->
+    <div class="page-header">
+
+        <h1>My Profile</h1>
+
+        <p>
+            Manage your account settings and personal information.
+        </p>
+
+    </div>
+
+    <!-- Profile Card -->
+    <div class="profile-card">
+
+        <div class="profile-avatar">
+
+            {{ profile.user.full_name.split()[0][0] }}
+            {{ profile.user.full_name.split()[-1][0] }}
+
+        </div>
+
+        <h2>{{ profile.user.full_name }}</h2>
+
+        <p>{{ profile.user.email }}</p>
+
+        <span class="member-since">
+
+            Member since
+
+            {{ profile.user.created_at.strftime("%d %b %Y") }}
+
+        </span>
+
+    </div>
+
+</section>
+
+<!-- =========================
+Account Summary
+========================= -->
+
+<section class="summary-section">
+
+    <div class="section-header">
+
+        <h2>Account Summary</h2>
+
+        <p>Your financial overview at a glance.</p>
+
+    </div>
+
+    <div class="summary-grid">
+
+        <!-- Income -->
+
+        <div class="summary-card income">
+
+            <div class="summary-icon">
+
+                <span class="material-symbols-outlined">
+
+                    trending_up
+
+                </span>
+
+            </div>
+
+            <div class="summary-content">
+
+                <h4>Total Income</h4>
+
+                <h2>
+
+                    ₹{{ "{:,.2f}".format(profile.stats.total_income) }}
+
+                </h2>
+
+            </div>
+
+        </div>
+
+        <!-- Expense -->
+
+        <div class="summary-card expense">
+
+            <div class="summary-icon">
+
+                <span class="material-symbols-outlined">
+
+                    trending_down
+
+                </span>
+
+            </div>
+
+            <div class="summary-content">
+
+                <h4>Total Expense</h4>
+
+                <h2>
+
+                    ₹{{ "{:,.2f}".format(profile.stats.total_expense) }}
+
+                </h2>
+
+            </div>
+
+        </div>
+
+        <!-- Balance -->
+
+        <div class="summary-card balance">
+
+            <div class="summary-icon">
+
+                <span class="material-symbols-outlined">
+
+                    account_balance_wallet
+
+                </span>
+
+            </div>
+
+            <div class="summary-content">
+
+                <h4>Current Balance</h4>
+
+                <h2>
+
+                    ₹{{ "{:,.2f}".format(profile.stats.balance) }}
+
+                </h2>
+
+            </div>
+
+        </div>
+
+        <!-- Transactions -->
+
+        <div class="summary-card transaction">
+
+            <div class="summary-icon">
+
+                <span class="material-symbols-outlined">
+
+                    receipt_long
+
+                </span>
+
+            </div>
+
+            <div class="summary-content">
+
+                <h4>Transactions</h4>
+
+                <h2>
+
+                    {{ profile.stats.transactions }}
+
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+Personal Information
+========================= -->
+
+<section class="profile-section">
+
+    <div class="section-header">
+
+        <h2>Personal Information</h2>
+
+        <p>
+            Update your profile information.
+        </p>
+
+    </div>
+
+    <div class="profile-form-card">
+
+        <form
+            action="{{ url_for('profile.update_profile') }}"
+            method="POST"
+        >
+
+            <div class="form-group">
+
+                <label for="full_name">
+
+                    Full Name
+
+                </label>
+
+                <input
+                    type="text"
+                    id="full_name"
+                    name="full_name"
+                    value="{{ profile.user.full_name }}"
+                    required
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+
+                    Email Address
+
+                </label>
+
+                <div class="readonly-field">
+
+                    <input
+                        type="email"
+                        value="{{ profile.user.email }}"
+                        readonly
+                    >
+
+                    <span class="material-symbols-outlined">
+
+                        lock
+
+                    </span>
+
+                </div>
+
+                <small>
+
+                    Your email address cannot be changed.
+
+                </small>
+
+            </div>
+
+            <div class="form-actions">
+
+                <button
+                    type="submit"
+                    class="btn-primary"
+                >
+
+                    <span class="material-symbols-outlined">
+
+                        save
+
+                    </span>
+
+                    Save Changes
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</section>
+
+<!-- =========================
+Security Settings
+========================= -->
+
+<section class="profile-section">
+
+    <div class="section-header">
+
+        <h2>Security Settings</h2>
+
+        <p>
+
+            Change your account password to keep your account secure.
+
+        </p>
+
+    </div>
+
+    <div class="profile-form-card">
+
+        <form
+            action="{{ url_for('profile.change_password') }}"
+            method="POST"
+            id="passwordForm"
+        >
+
+            <div class="form-group">
+
+                <label>
+
+                    Current Password
+
+                </label>
+
+                <div class="password-wrapper">
+
+                    <input
+                        type="password"
+                        name="current_password"
+                        id="currentPassword"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        data-target="currentPassword"
+                    >
+
+                        <span class="material-symbols-outlined">
+
+                            visibility
+
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+
+                    New Password
+
+                </label>
+
+                <div class="password-wrapper">
+
+                    <input
+                        type="password"
+                        name="new_password"
+                        id="newPassword"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        data-target="newPassword"
+                    >
+
+                        <span class="material-symbols-outlined">
+
+                            visibility
+
+                        </span>
+
+                    </button>
+
+                </div>
+
+                <div class="password-strength">
+
+                    <div
+                        class="strength-bar"
+                        id="strengthBar"
+                    ></div>
+
+                </div>
+
+                <small id="strengthText">
+
+                    Password strength
+
+                </small>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+
+                    Confirm Password
+
+                </label>
+
+                <div class="password-wrapper">
+
+                    <input
+                        type="password"
+                        name="confirm_password"
+                        id="confirmPassword"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        data-target="confirmPassword"
+                    >
+
+                        <span class="material-symbols-outlined">
+
+                            visibility
+
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+
+                <button
+                    type="submit"
+                    class="btn-primary"
+                >
+
+                    <span class="material-symbols-outlined">
+
+                        lock_reset
+
+                    </span>
+
+                    Update Password
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+
+{% endblock %}

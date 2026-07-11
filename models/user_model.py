@@ -68,3 +68,17 @@ class UserModel:
                 }
             }
         )
+    
+    @staticmethod
+    def update_password(user_id, hashed_password):
+
+        return UserModel.collection.update_one(
+            {
+                "_id": ObjectId(user_id)
+            },
+            {
+                "$set": {
+                    "password": hashed_password
+                }
+            }
+        )
