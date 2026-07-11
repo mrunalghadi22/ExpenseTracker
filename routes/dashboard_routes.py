@@ -1,6 +1,7 @@
 from flask import Blueprint
-from controllers.dashboard_controller import dashboard
-from middleware.auth import login_required
+
+from controllers.dashboard_controller import DashboardController
+
 
 dashboard_bp = Blueprint(
     "dashboard",
@@ -8,7 +9,8 @@ dashboard_bp = Blueprint(
 )
 
 
-@dashboard_bp.route("/dashboard")
-@login_required
-def dashboard_page():
-    return dashboard()
+dashboard_bp.route(
+    "/dashboard"
+)(
+    DashboardController.dashboard_page
+)

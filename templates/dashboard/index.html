@@ -1,25 +1,457 @@
-{% extends "layout/dashboard_base.html" %}
+{% extends "layout/dashboard_base.html" %} {% block title %} Dashboard {%
+endblock %} {% block content %}
 
-{% block title %}
-Dashboard
-{% endblock %}
+<div class="dashboard-container">
+  <section class="hero-card">
+    <div class="hero-left">
+      <p class="hero-greeting">Welcome Back 👋</p>
 
-{% block content %}
+      <h1>Current Balance</h1>
 
-<h1>
+      <h2>₹{{ "{:,.2f}".format(dashboard.summary.balance) }}</h2>
 
-Welcome,
+      <div class="saving-badge">
+        <span class="material-symbols-outlined"> trending_up </span>
 
-{{ current_user.full_name }}
+        {{ dashboard.monthly.saving_rate }}% Saved This Month
+      </div>
+    </div>
 
-🎉
+    <div class="hero-right">
+      <div class="wallet-circle">
+        <span class="material-symbols-outlined"> account_balance_wallet </span>
+      </div>
+    </div>
+  </section>
 
-</h1>
+  <section class="stats-grid">
+    <div class="stat-card income">
+      <div class="stat-icon">
+        <span class="material-symbols-outlined"> payments </span>
+      </div>
 
-<p>
+      <div class="stat-content">
+        <h3>₹{{ "{:,.2f}".format(dashboard.summary.income) }}</h3>
 
-Your dashboard will be here.
+        <p>Total Income</p>
+      </div>
+    </div>
 
-</p>
+    <div class="stat-card expense">
+      <div class="stat-icon">
+        <span class="material-symbols-outlined"> receipt_long </span>
+      </div>
+
+      <div class="stat-content">
+        <h3>₹{{ "{:,.2f}".format(dashboard.summary.expense) }}</h3>
+
+        <p>Total Expense</p>
+      </div>
+    </div>
+
+    <div class="stat-card saving">
+      <div class="stat-icon">
+        <span class="material-symbols-outlined"> savings </span>
+      </div>
+
+      <div class="stat-content">
+        <h3>₹{{ "{:,.2f}".format(dashboard.summary.savings) }}</h3>
+
+        <p>Total Savings</p>
+      </div>
+    </div>
+
+    <div class="stat-card ratio">
+      <div class="stat-icon">
+        <span class="material-symbols-outlined"> donut_large </span>
+      </div>
+
+      <div class="stat-content">
+        <h3>{{ dashboard.stats.expense_ratio }}%</h3>
+
+        <p>Expense Ratio</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="analytics-section">
+    <div class="section-title">
+      <div>
+        <h2>Financial Analytics</h2>
+
+        <p>Track your income and expenses over time</p>
+      </div>
+    </div>
+
+    <div class="charts-grid">
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <h3>Income vs Expense</h3>
+
+            <span>Last 6 Months</span>
+          </div>
+
+          <span class="material-symbols-outlined"> bar_chart </span>
+        </div>
+
+        <canvas id="incomeExpenseChart"></canvas>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <h3>Expense by Category</h3>
+
+            <span>Overall Distribution</span>
+          </div>
+
+          <span class="material-symbols-outlined"> pie_chart </span>
+        </div>
+
+        <canvas id="categoryChart"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <section class="dashboard-content">
+    <div class="recent-card">
+      <div class="section-header">
+        <h2>Recent Transactions</h2>
+
+        <a href="#">View All</a>
+      </div>
+
+      {% if dashboard.recent_transactions %}
+
+      <div class="transaction-list">
+        {% for transaction in dashboard.recent_transactions %}
+
+        <div class="transaction-item">
+          <div class="transaction-left">
+            <div
+              class="transaction-icon"
+              style="background: {{ transaction.color }}20;"
+            >
+              <span
+                class="material-symbols-outlined"
+                style="color: {{ transaction.color }};"
+              >
+                {{ transaction.icon }}
+              </span>
+            </div>
+
+            <div class="transaction-info">
+              <h4>{{ transaction.title }}</h4>
+
+              <p>{{ transaction.category }}</p>
+
+              <small> {{ transaction.date.strftime("%d %b %Y") }} </small>
+            </div>
+          </div>
+
+          <div class="transaction-right">
+            <span
+              class="{% if transaction.type == 'income' %}income-amount{% else %}expense-amount{% endif %}"
+            >
+              {% if transaction.type == "income" %} + {% else %} - {% endif %}
+              ₹{{ "{:,.2f}".format(transaction.amount) }}
+            </span>
+          </div>
+        </div>
+
+        {% endfor %}
+      </div>
+
+      {% else %}
+
+      <div class="empty-transactions">
+        <span class="material-symbols-outlined"> receipt_long </span>
+
+        <p>No recent transactions found.</p>
+      </div>
+
+      {% endif %}
+    </div>
+  </section>
+</div>
+
+{% endblock %} {% block scripts %}
+
+<script>
+
+  const incomeData = {{ dashboard.monthly_income_chart | tojson }};
+  const expenseData = {{ dashboard.monthly_expense_chart | tojson }};
+  const categoryData = {{ dashboard.category_expense_chart | tojson }};
+
+  // ==========================================
+  // Prepare Labels
+  // ==========================================
+
+  const labels = [
+      ...new Set([
+          ...incomeData.map(item => item.label),
+          ...expenseData.map(item => item.label)
+      ])
+  ];
+
+  const incomeValues = labels.map(label => {
+
+      const item = incomeData.find(i => i.label === label);
+
+      return item ? item.amount : 0;
+
+  });
+
+  const expenseValues = labels.map(label => {
+
+      const item = expenseData.find(i => i.label === label);
+
+      return item ? item.amount : 0;
+
+  });
+
+  // ==========================================
+  // Income vs Expense Chart
+  // ==========================================
+
+  new Chart(
+
+      document.getElementById("incomeExpenseChart"),
+
+      {
+
+          type: "bar",
+
+          data: {
+
+              labels: labels,
+
+              datasets: [
+
+                  {
+
+                      label: "Income",
+
+                      data: incomeValues,
+
+                      backgroundColor: "#10B981",
+
+                      borderRadius: 8,
+
+                      borderSkipped: false
+
+                  },
+
+                  {
+
+                      label: "Expense",
+
+                      data: expenseValues,
+
+                      backgroundColor: "#EF4444",
+
+                      borderRadius: 8,
+
+                      borderSkipped: false
+
+                  }
+
+              ]
+
+          },
+
+          options: {
+
+              responsive: true,
+
+              maintainAspectRatio: false,
+
+              animation: {
+
+                  duration: 1200
+
+              },
+
+              interaction: {
+
+                  intersect: false,
+
+                  mode: "index"
+
+              },
+
+              plugins: {
+
+                  legend: {
+
+                      position: "top",
+
+                      labels: {
+
+                          usePointStyle: true,
+
+                          pointStyle: "circle",
+
+                          padding: 20,
+
+                          font: {
+
+                              size: 13
+
+                          }
+
+                      }
+
+                  },
+
+                  tooltip: {
+
+                      callbacks: {
+
+                          label: function(context) {
+
+                              return context.dataset.label + ": ₹" +
+                                     context.parsed.y.toLocaleString();
+
+                          }
+
+                      }
+
+                  }
+
+              },
+
+              scales: {
+
+                  x: {
+
+                      grid: {
+
+                          display: false
+
+                      }
+
+                  },
+
+                  y: {
+
+                      beginAtZero: true,
+
+                      ticks: {
+
+                          callback: function(value) {
+
+                              return "₹" + value.toLocaleString();
+
+                          }
+
+                      }
+
+                  }
+
+              }
+
+          }
+
+      }
+
+  );
+
+  // ==========================================
+  // Expense by Category
+  // ==========================================
+
+  new Chart(
+
+      document.getElementById("categoryChart"),
+
+      {
+
+          type: "doughnut",
+
+          data: {
+
+              labels: categoryData.map(item => item.category),
+
+              datasets: [
+
+                  {
+
+                      data: categoryData.map(item => item.amount),
+
+                      backgroundColor: categoryData.map(item => item.color),
+
+                      borderWidth: 0,
+
+                      hoverOffset: 12
+
+                  }
+
+              ]
+
+          },
+
+          options: {
+
+              responsive: true,
+
+              maintainAspectRatio: false,
+
+              cutout: "70%",
+
+              animation: {
+
+                  duration: 1200
+
+              },
+
+              plugins: {
+
+                  legend: {
+
+                      position: "bottom",
+
+                      labels: {
+
+                          usePointStyle: true,
+
+                          pointStyle: "circle",
+
+                          padding: 18,
+
+                          font: {
+
+                              size: 12
+
+                          }
+
+                      }
+
+                  },
+
+                  tooltip: {
+
+                      callbacks: {
+
+                          label: function(context) {
+
+                              return context.label + ": ₹" +
+                                     context.parsed.toLocaleString();
+
+                          }
+
+                      }
+
+                  }
+
+              }
+
+          }
+
+      }
+
+  );
+</script>
 
 {% endblock %}

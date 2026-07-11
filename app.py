@@ -3,11 +3,11 @@ from config import Config
 
 from routes.home_routes import home_bp
 from routes.auth_routes import auth_bp
-from routes.dashboard_routes import dashboard_bp
 from routes.category_routes import category_bp
 from routes.income_routes import income_bp
 from routes.expense_routes import expense_bp
 from models.user_model import UserModel
+from routes.dashboard_routes import dashboard_bp
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -26,10 +26,10 @@ def inject_user():
 
 app.register_blueprint(home_bp)
 app.register_blueprint(auth_bp)
-app.register_blueprint(dashboard_bp)
 app.register_blueprint(category_bp)
 app.register_blueprint(income_bp)
 app.register_blueprint(expense_bp)
+app.register_blueprint(dashboard_bp)
 
 
 
