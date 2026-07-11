@@ -4,4 +4,4 @@ def home():
     if session.get("user_id"):
             return redirect(url_for("dashboard.dashboard_page"))
 
-    return render_template("index.html")
+    return render_template("home.html")
